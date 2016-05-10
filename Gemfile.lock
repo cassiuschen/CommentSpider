@@ -1,0 +1,22 @@
+GIT
+  remote: git://github.com/cassiuschen/classifier-reborn.git
+  revision: 1733cd1687d390273672850640efee50a1448f4e
+  specs:
+    classifier-reborn (2.0.4)
+      fast-stemmer (~> 1.0)
+      rmmseg-cpp (= 0.2.9)
+
+GEM
+  remote: https://gems.ruby-china.org/
+  specs:
+    fast-stemmer (1.0.2)
+    rmmseg-cpp (0.2.9)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  classifier-reborn!
+
+BUNDLED WITH
+   1.10.5
