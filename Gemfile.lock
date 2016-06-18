@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/cassiuschen/classifier-reborn.git
-  revision: 1733cd1687d390273672850640efee50a1448f4e
+  revision: 9bb76e779fbf472666d9ec0fbf80bc1b17938081
   specs:
     classifier-reborn (2.0.4)
       fast-stemmer (~> 1.0)
@@ -10,9 +10,11 @@ GEM
   remote: https://gems.ruby-china.org/
   specs:
     fast-stemmer (1.0.2)
-    mini_portile2 (2.0.0)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
+    mini_portile2 (2.1.0)
+    nokogiri (1.6.8)
+      mini_portile2 (~> 2.1.0)
+      pkg-config (~> 1.1.7)
+    pkg-config (1.1.7)
     rmmseg-cpp (0.2.9)
 
 PLATFORMS

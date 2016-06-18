@@ -5,7 +5,14 @@ require 'nokogiri'
 
 module Dianping
   @@export_folder = "./data/dianping-"
-  
+  RATING = {
+    '4' => "Great",
+    '3' => "Good",
+    '2' => "Normal",
+    '1' => "Bad",
+    '0' => "White"
+  }
+
   class << self
     def load(*words)
       @all = []
@@ -47,10 +54,38 @@ module Dianping
       return @results.flatten.uniq
     end
 
-    private
+    def download_rating_data(shop_id, key_word)
+      puts "Begin to fetch Dianping shop #{shop_id} about #{key_word}."
+      STDOUT.sync = true
+      page_count = result_page_count(shop_id, key_word)
+      @results = []
+      File.open(@@export_folder + "#{shop_id}-rating-#{key_word.gsub(' ', '+')}.txt", 'w') do |file|
+        file.write ''
+        (1..page_count).to_a.each do |i|
+          hashes = '#' * (i * 50 / page_count);
+          spaces = ' ' * (50 - hashes.length).to_i;
+          data = get_search_result_with_rating(shop_id, key_word, i);
+          file << data.join("\n")
+          @results << data 
+          print "\rWorking: [#{hashes}#{spaces}]#{key_word}(#{i}/#{page_count})"
+        end
+      end
+      STDOUT.sync = false
+      puts ''
+      puts "Done! Get #{@results.flatten.size} comments totally. Data have saved at #{@@export_folder}#{shop_id}-rating-#{key_word.gsub(' ', '+')}.txt"
+      return @results.flatten.uniq
+    end
+
+    #private
     def get_search_result(shop_id, key_word, page_no)
       page = get_search_page shop_id, key_word, page_no
       return page.css('.J_brief-cont').map {|c| c.content.remove_html_tag!.gsub(' ','')}
+    end
+
+    def get_search_result_with_rating(shop_id, key_word, page_no)
+      page = get_search_page shop_id, key_word, page_no
+      comments = page.css('.comment-list>ul>li>.content')
+      return comments.map {|comment| "#{Dianping::RATING[comment.css('.rst').last.content.match(/[0-5]/).to_s]}: #{comment.css('.J_brief-cont').last.content.remove_html_tag!.gsub(' ','')}"}
     end
 
     def get_search_page(shop_id, key_word, page_no = 1)

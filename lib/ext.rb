@@ -1,7 +1,7 @@
 # Monkey Path
 class String
   def remove_html_tag!
-    self.gsub(/<[^>]*>/, '').gsub(/#[^>]*#/, '').gsub(/\[[^>]*\]/, '').gsub('@', '')
+    self.gsub(/<[^>]*>/, '').gsub(/#[^>]*#/, '').gsub(/\[[^>]*\]/, '').gsub('@', '').gsub("\n", '')
   end
 end
 
@@ -21,5 +21,15 @@ class Hash
       result[element[0]] = element[1]
     end
     result
+  end
+end
+
+class Array
+  def sum
+    @sum = 0
+    self.each do |i|
+      @sum += i.to_i
+    end
+    @sum
   end
 end
