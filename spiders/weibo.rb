@@ -52,7 +52,7 @@ module Weibo
       STDOUT.sync = false
       puts ''
       puts "Done! Get #{@results.flatten.size} Weibo totally. Data have saved at #{@@export_folder}#{key_word.gsub(' ', '+')}.txt"
-      return @results.flatten
+      return @results.flatten.uniq
     end
 
     private
